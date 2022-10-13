@@ -1,4 +1,4 @@
-const String address = "0xB5DE2f7E2A65Ad60CA30237e1F3D0dd0552Fc7A5";
+const String address = "0x3C896BA1971903A9090F98a08118841120d007CE";
 
 const scabi = <String>[
   'function addTask(string task)',
