@@ -7,6 +7,7 @@ pragma solidity >=0.8.0 <0.9.0;
     the status of a single task.
  */
 
+
 /**
  * @title SportsAnalysis Smart Contract
  * @dev Implements an access control structure for player-player analysis
