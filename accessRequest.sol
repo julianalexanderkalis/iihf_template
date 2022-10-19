@@ -39,7 +39,8 @@ contract SportsAnalysis {
      */
     function generateAccessRequest(address[] calldata accountsRequested) public {
 
-
+        /* create acceptedList as in memory to populate and later update whether athletes have 
+        approved the request or not*/
         bool[] memory acceptedList = new bool[](accountsRequested.length);
 
         for (uint i = 0; i < accountsRequested.length; i++){
@@ -50,6 +51,7 @@ contract SportsAnalysis {
 
         }
 
+        // push new request
         accessRequest.push(ScoutAccessRequest({
             id: _scoutAccessRequestId.current(),
             requestSender: msg.sender,
@@ -58,57 +60,31 @@ contract SportsAnalysis {
             createdAt: block.timestamp
         }));
 
-
+        // add a log
         emit AccessRequestAdded(msg.sender, accountsRequested);
+        // increase id by one
         _scoutAccessRequestId.increment();
 
     }
 
+
+    /**
+     * @dev Function to list ones accessRequests
+     */
     function viewAccessRequests() external view returns(ScoutAccessRequest[] memory list) {
         
+        // require that the athlete has current access requests
         require(athleteAccessRequests[msg.sender].length > 0, "This account does not have any requests");
 
+        // build in-memory tuple of access requests
         ScoutAccessRequest[] memory athleteRequests = new ScoutAccessRequest[](athleteAccessRequests[msg.sender].length);
 
+        // loop over ID's and add these access requests to in memory list
         for (uint i = 0; i < athleteAccessRequests[msg.sender].length; i++) {
             uint id = athleteAccessRequests[msg.sender][i];
             athleteRequests[i] = accessRequest[id];
         }
-
+        // return
         return athleteRequests;
-
     }
-
-    /**
-     * @dev Function to get a task from a list
-     * @param _taskIndex uint of the task ID in the list
-     */
-    // function getTask(uint256 _taskIndex) external view returns (Task memory) {
-    //     Task storage task = Users[msg.sender][_taskIndex];
-    //     return task;
-    // }
-
-    /**
-     * @dev Function to update a task status
-     * @param _taskIndex uint256 of the task ID in the list
-     * @param _status bool of the new status
-     */
-    // function updateStatus(uint256 _taskIndex, bool _status) external {
-    //     Users[msg.sender][_taskIndex].isDone = _status;
-    // }
-
-    /**
-     * @dev Function to delete a task from a list
-     * @param _taskIndex uint256 ID of the task to delete
-     */
-    // function deleteTask(uint256 _taskIndex) external {
-    //     delete Users[msg.sender][_taskIndex];
-    // }
-
-    /**
-     * @dev Function to get number of all tasks
-     */
-    // function getTaskCount() external view returns (uint256) {
-    //     return Users[msg.sender].length;
-    // }
 }
