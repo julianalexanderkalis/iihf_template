@@ -26,7 +26,7 @@ class Web3FunctionsForWeb {
   Future<void> addTask(String task) async {
     const List<String> abi = scabi;
 
-    const String contractAddress = '0xB5DE2f7E2A65Ad60CA30237e1F3D0dd0552Fc7A5';
+    const String contractAddress = '0xCb89DeC390c26085E643F72Eab901561E612167F';
     final Contract testToken = Contract(
       contractAddress,
       abi,
@@ -39,7 +39,7 @@ class Web3FunctionsForWeb {
   Future<List<Event>> getTaskCount() async {
     const List<String> abi = scabi;
 
-    const String contractAddress = '0xB5DE2f7E2A65Ad60CA30237e1F3D0dd0552Fc7A5';
+    const String contractAddress = '0xCb89DeC390c26085E643F72Eab901561E612167F';
     final Contract testToken = Contract(
       contractAddress,
       abi,
