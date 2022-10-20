@@ -130,8 +130,7 @@ contract SportsAnalysis {
         returns (address[] memory accForAnalysis)
     {
         require(
-            block.timestamp >=
-                accessRequest[accessRequestId].createdAt + 3 minutes,
+            block.timestamp >= accessRequest[accessRequestId].createdAt,
             "Athletes can still accept or decline this accessRequest"
         );
 
@@ -147,18 +146,21 @@ contract SportsAnalysis {
         }
 
         address[] memory athletes = new address[](nAcc);
-
+        uint counter = 0;
         for (
             uint i = 0;
             i < accessRequest[accessRequestId].requestAccepted.length;
             i++
         ) {
             if (accessRequest[accessRequestId].requestAccepted[i] == true) {
-                athletes[athletes.length + 1] = accessRequest[accessRequestId]
+                athletes[counter] = accessRequest[accessRequestId]
                     .accountsRequested[i];
+                counter += 1;
             }
         }
 
         return athletes;
     }
 }
+
+// NOTE: ONLY ATHLETES THAT ARE INCLUDED IN accessRequest SHOULD BE ABLE TO CALL APPROVE METHOD
