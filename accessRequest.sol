@@ -14,7 +14,6 @@ import "@openzeppelin/contracts/utils/Counters.sol";
  * @dev Implements an access control structure for player-player analysis
  */
 contract SportsAnalysis {
-
     using Counters for Counters.Counter;
     Counters.Counter private _scoutAccessRequestId;
 
@@ -37,47 +36,57 @@ contract SportsAnalysis {
      * @dev Function to generate an accessRequest
      * @param accountsRequested List of addresses than the request sender wants to have access to
      */
-    function generateAccessRequest(address[] calldata accountsRequested) public {
-
+    function generateAccessRequest(address[] calldata accountsRequested)
+        public
+    {
         /* create acceptedList as in memory to populate and later update whether athletes have 
         approved the request or not*/
         bool[] memory acceptedList = new bool[](accountsRequested.length);
 
-        for (uint i = 0; i < accountsRequested.length; i++){
+        for (uint i = 0; i < accountsRequested.length; i++) {
             acceptedList[i] = false;
 
             // add request to athleteAccessRequest
-            athleteAccessRequests[accountsRequested[i]].push(_scoutAccessRequestId.current());
-
+            athleteAccessRequests[accountsRequested[i]].push(
+                _scoutAccessRequestId.current()
+            );
         }
 
         // push new request
-        accessRequest.push(ScoutAccessRequest({
-            id: _scoutAccessRequestId.current(),
-            requestSender: msg.sender,
-            accountsRequested: accountsRequested,
-            requestAccepted: acceptedList,
-            createdAt: block.timestamp
-        }));
+        accessRequest.push(
+            ScoutAccessRequest({
+                id: _scoutAccessRequestId.current(),
+                requestSender: msg.sender,
+                accountsRequested: accountsRequested,
+                requestAccepted: acceptedList,
+                createdAt: block.timestamp
+            })
+        );
 
         // add a log
         emit AccessRequestAdded(msg.sender, accountsRequested);
         // increase id by one
         _scoutAccessRequestId.increment();
-
     }
-
 
     /**
      * @dev Function to list ones accessRequests
      */
-    function viewAccessRequests() external view returns(ScoutAccessRequest[] memory list) {
-        
+    function viewAccessRequests()
+        external
+        view
+        returns (ScoutAccessRequest[] memory list)
+    {
         // require that the athlete has current access requests
-        require(athleteAccessRequests[msg.sender].length > 0, "This account does not have any requests");
+        require(
+            athleteAccessRequests[msg.sender].length > 0,
+            "This account does not have any requests"
+        );
 
         // build in-memory tuple of access requests
-        ScoutAccessRequest[] memory athleteRequests = new ScoutAccessRequest[](athleteAccessRequests[msg.sender].length);
+        ScoutAccessRequest[] memory athleteRequests = new ScoutAccessRequest[](
+            athleteAccessRequests[msg.sender].length
+        );
 
         // loop over ID's and add these access requests to in memory list
         for (uint i = 0; i < athleteAccessRequests[msg.sender].length; i++) {
@@ -86,5 +95,70 @@ contract SportsAnalysis {
         }
         // return
         return athleteRequests;
+    }
+
+    /**
+     * @dev Function to approve accessRequest
+     * @param accessRequestId Id value of the accessRequest
+     */
+    function approveAccessRequest(uint accessRequestId) external {
+        // loop over addresses in accessRequest.accountsRequested, if match then update requestAccepted
+        for (
+            uint i = 0;
+            i < accessRequest[accessRequestId].accountsRequested.length;
+            i++
+        ) {
+            if (
+                accessRequest[accessRequestId].accountsRequested[i] ==
+                msg.sender
+            ) {
+                require(
+                    accessRequest[accessRequestId].requestAccepted[i] == false,
+                    "User already approved access request"
+                );
+                accessRequest[accessRequestId].requestAccepted[i] = true;
+            }
+        }
+    }
+
+    /**
+     * @dev Function that lets the scout execute the accessRequest -> do the analysis
+     */
+    function executeAccessRequest(uint accessRequestId)
+        external
+        view
+        returns (address[] memory accForAnalysis)
+    {
+        require(
+            block.timestamp >=
+                accessRequest[accessRequestId].createdAt + 3 minutes,
+            "Athletes can still accept or decline this accessRequest"
+        );
+
+        uint nAcc = 0;
+        for (
+            uint i = 0;
+            i < accessRequest[accessRequestId].requestAccepted.length;
+            i++
+        ) {
+            if (accessRequest[accessRequestId].requestAccepted[i] == true) {
+                nAcc += 1;
+            }
+        }
+
+        address[] memory athletes = new address[](nAcc);
+
+        for (
+            uint i = 0;
+            i < accessRequest[accessRequestId].requestAccepted.length;
+            i++
+        ) {
+            if (accessRequest[accessRequestId].requestAccepted[i] == true) {
+                athletes[athletes.length + 1] = accessRequest[accessRequestId]
+                    .accountsRequested[i];
+            }
+        }
+
+        return athletes;
     }
 }
