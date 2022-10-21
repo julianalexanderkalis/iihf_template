@@ -130,7 +130,7 @@ contract SportsAnalysis {
         returns (address[] memory accForAnalysis)
     {
         require(
-            block.timestamp >= accessRequest[accessRequestId].createdAt,
+            block.timestamp >= accessRequest[accessRequestId].createdAt + 7 days,
             "Athletes can still accept or decline this accessRequest"
         );
 
