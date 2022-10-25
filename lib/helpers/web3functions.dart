@@ -27,6 +27,7 @@ class Web3FunctionsForWeb {
     const List<String> abi = scabi;
 
     const String contractAddress = '0xCb89DeC390c26085E643F72Eab901561E612167F';
+
     final Contract testToken = Contract(
       contractAddress,
       abi,
@@ -40,6 +41,7 @@ class Web3FunctionsForWeb {
     const List<String> abi = scabi;
 
     const String contractAddress = '0xCb89DeC390c26085E643F72Eab901561E612167F';
+
     final Contract testToken = Contract(
       contractAddress,
       abi,
@@ -69,4 +71,18 @@ class Web3FunctionsForWeb {
   //     print("did not sign the message");
   //   }
   // }
+
+  Future<void> fetchProposals() async {
+    const List<String> abi = scabi;
+
+    const String contractAddress = '0xd20238542C388795d4eC9F7021569bEd0E73eeae';
+    final Contract testToken = Contract(
+      contractAddress,
+      abi,
+      provider!.getSigner(),
+    );
+
+    var res = await testToken.call("fetchProposals");
+    print(res);
+  }
 }

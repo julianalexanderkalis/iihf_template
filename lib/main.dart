@@ -59,6 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       listOfTasks = Web3FunctionsForWeb().getTaskCount();
     });
+    Web3FunctionsForWeb().fetchProposals();
   }
 
   void addTask(task) {
