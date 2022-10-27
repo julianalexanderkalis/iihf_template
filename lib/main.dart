@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:iihf_template/components/athlete_dashboard.dart';
+import 'package:iihf_template/components/scout_dashboard.dart';
 import 'package:iihf_template/components/toDoList.dart';
 import 'helpers/web3functions.dart';
 import 'package:flutter_web3/flutter_web3.dart';
@@ -23,15 +25,20 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       role = value;
     });
+    print(role);
   }
 
   renderBody() {
     if (role == "") {
-      return const MyHomePage(title: 'Smart Contract ToDo List');
+      return MyHomePage(
+        title: 'Smart Contract ToDo List',
+        setRole: setRole,
+      );
     } else if (role == "scout") {
-      return Container();
+      return const ScoutDashboard();
     } else {
-      return Container();
+      return const AthleteDashboard();
+      ;
     }
   }
 
@@ -44,7 +51,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         colorScheme: const ColorScheme.light().copyWith(
           secondary: Colors.black,
-          primary: Colors.white,
+          primary: Colors.black,
         ),
       ),
       home: renderBody(),
@@ -53,11 +60,14 @@ class _MyAppState extends State<MyApp> {
 }
 
 class MyHomePage extends StatefulWidget {
+  final String title;
+  final Function setRole;
+
   const MyHomePage({
     super.key,
     required this.title,
+    required this.setRole,
   });
-  final String title;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -107,7 +117,6 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Card(
                 elevation: 50,
                 shadowColor: Colors.black,
-                color: Theme.of(context).colorScheme.primary,
                 child: Padding(
                   padding: const EdgeInsets.all(25.0),
                   child: Column(
@@ -134,7 +143,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             Colors.black,
                           ),
                         ),
-                        onPressed: () => {},
+                        onPressed: () => {
+                          widget.setRole("scout"),
+                        },
                         child: const Padding(
                           padding: EdgeInsets.all(10.0),
                           child: Text("Sign in",
@@ -156,7 +167,6 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Card(
                 elevation: 50,
                 shadowColor: Colors.black,
-                color: Theme.of(context).colorScheme.primary,
                 child: Padding(
                   padding: const EdgeInsets.all(25.0),
                   child: Column(
@@ -182,7 +192,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             Colors.black,
                           ),
                         ),
-                        onPressed: () => {},
+                        onPressed: () => {
+                          widget.setRole("athlete"),
+                        },
                         child: const Padding(
                           padding: EdgeInsets.all(10.0),
                           child: Text("Sign in",
