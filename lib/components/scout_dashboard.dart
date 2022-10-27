@@ -70,10 +70,21 @@ class _ScoutDashboardState extends State<ScoutDashboard> {
               ],
             ),
           ),
-          const Text("scout"),
+          const Padding(
+            padding: EdgeInsets.all(50.0),
+            child: Center(
+              child: Text("scout"),
+            ),
+          ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.large(onPressed: () => {}),
+      floatingActionButton: FloatingActionButton.large(
+        onPressed: () => {},
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+      ),
     );
   }
 }
