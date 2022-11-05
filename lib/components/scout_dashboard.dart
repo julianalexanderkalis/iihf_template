@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iihf_template/components/createAccessRequest.dart';
 
 class ScoutDashboard extends StatefulWidget {
   const ScoutDashboard({super.key});
@@ -79,7 +80,15 @@ class _ScoutDashboardState extends State<ScoutDashboard> {
         ],
       ),
       floatingActionButton: FloatingActionButton.large(
-        onPressed: () => {},
+        onPressed: () => {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return const AlertDialog(
+                  content: CreateAccessRequest(),
+                );
+              })
+        },
         child: const Icon(
           Icons.add,
           color: Colors.white,

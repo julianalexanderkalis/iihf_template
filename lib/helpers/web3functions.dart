@@ -23,18 +23,19 @@ class Web3FunctionsForWeb {
     return <String, bool>{'connected': false};
   }
 
-  Future<void> addTask(String task) async {
+  Future<void> generateAccessRequest() async {
     const List<String> abi = scabi;
 
-    const String contractAddress = '0xCb89DeC390c26085E643F72Eab901561E612167F';
+    const String contractAddress = '0x285ddeAF9e34A8149451E0f6c904C8628bd71441';
 
     final Contract testToken = Contract(
       contractAddress,
       abi,
       provider!.getSigner(),
     );
-
-    await testToken.send('addTask', <String>[task]);
+    var acc = await ethereum!.requestAccount();
+    print(acc[0]);
+    await testToken.send('generateAccessRequest', <List<String>>[acc]);
   }
 
   Future<List<Event>> getTaskCount() async {
@@ -72,10 +73,10 @@ class Web3FunctionsForWeb {
   //   }
   // }
 
-  Future<void> fetchProposals() async {
+  Future<List<dynamic>> fetchProposals() async {
     const List<String> abi = scabi;
 
-    const String contractAddress = '0xd20238542C388795d4eC9F7021569bEd0E73eeae';
+    const String contractAddress = scAddress;
     final Contract testToken = Contract(
       contractAddress,
       abi,
@@ -83,6 +84,20 @@ class Web3FunctionsForWeb {
     );
 
     var res = await testToken.call("fetchProposals");
-    print(res);
+    return res;
+  }
+
+  Future<List<dynamic>> fetchCompanyInformation() async {
+    const List<String> abi = scabi;
+
+    const String contractAddress = scAddress;
+    final Contract testToken = Contract(
+      contractAddress,
+      abi,
+      provider!.getSigner(),
+    );
+
+    var res = await testToken.call("fetchCompanyInformation");
+    return res;
   }
 }

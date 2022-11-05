@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iihf_template/components/athlete_dashboard.dart';
 import 'package:iihf_template/components/scout_dashboard.dart';
-import 'package:iihf_template/components/toDoList.dart';
 import 'helpers/web3functions.dart';
 import 'package:flutter_web3/flutter_web3.dart';
 import 'package:get_storage/get_storage.dart';
@@ -29,6 +28,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   renderBody() {
+    Web3FunctionsForWeb().metamask();
     if (role == "") {
       return MyHomePage(
         title: 'Smart Contract ToDo List',
@@ -89,11 +89,10 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  void fetchTasks() {
+  void fetchTasks() async {
     setState(() {
       listOfTasks = Web3FunctionsForWeb().getTaskCount();
     });
-    Web3FunctionsForWeb().fetchProposals();
   }
 
   void addTask(task) {
