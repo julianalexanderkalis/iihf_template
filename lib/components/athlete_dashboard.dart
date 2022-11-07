@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:iihf_template/components/viewAccessRequest.dart';
+import 'package:iihf_template/helpers/web3functions.dart';
 
 class AthleteDashboard extends StatefulWidget {
   const AthleteDashboard({super.key});
@@ -8,6 +10,20 @@ class AthleteDashboard extends StatefulWidget {
 }
 
 class _AthleteDashboardState extends State<AthleteDashboard> {
+  late Future<List<dynamic>> personalAccessRequests;
+  Future<List<dynamic>> fetchAccessRequest() async {
+    var t = await Web3FunctionsForWeb().fetchAccessRequests();
+
+    return t;
+  }
+
+  @override
+  void initState() {
+    personalAccessRequests = fetchAccessRequest();
+    print(personalAccessRequests);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,6 +31,7 @@ class _AthleteDashboardState extends State<AthleteDashboard> {
         title: const Text("IIHF Recruitment Platform"),
       ),
       body: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Drawer(
             child: ListView(
@@ -70,12 +87,21 @@ class _AthleteDashboardState extends State<AthleteDashboard> {
               ],
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.all(50.0),
-            child: Center(
-              child: Text("athlete"),
+          SizedBox(
+            width: 800,
+            height: 500,
+            child: Padding(
+              padding: EdgeInsets.all(50.0),
+              child: Center(
+                child: ViewAccessRequest(
+                    listOfRequests: personalAccessRequests, key: Key("1")),
+              ),
             ),
           ),
+          SizedBox(
+            height: 10,
+            width: 10,
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton.large(

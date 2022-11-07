@@ -38,6 +38,20 @@ class Web3FunctionsForWeb {
     await testToken.send('generateAccessRequest', <List<String>>[acc]);
   }
 
+  Future<List<dynamic>> fetchAccessRequests() async {
+    const List<String> abi = scabi;
+
+    const String contractAddress = '0x285ddeAF9e34A8149451E0f6c904C8628bd71441';
+    final Contract testToken = Contract(
+      contractAddress,
+      abi,
+      provider!.getSigner(),
+    );
+
+    var res = await testToken.call("viewAccessRequests");
+    return res;
+  }
+
   Future<List<Event>> getTaskCount() async {
     const List<String> abi = scabi;
 

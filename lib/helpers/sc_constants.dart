@@ -10,5 +10,6 @@ const scabi = <String>[
   'function fetchCompanyInformation() view returns (tuple(string companyName, address founder, string symbol, uint256 senderShares, uint256 totalShares))',
 
   // for real functions
-  'function generateAccessRequest(address[] accountsRequested)'
+  'function generateAccessRequest(address[] accountsRequested)',
+  'function viewAccessRequests() view returns (tuple[](uint256 id, address requestSender, address[] accountsRequested, bool[] requestsAccepted, uint256 createdAt))'
 ];
