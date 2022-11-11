@@ -68,6 +68,9 @@ class Web3FunctionsForWeb {
 
     return events;
 
+
+  
+
     // print("here");
     // final tx = await testToken.send('getTaskCount');
     // tx.hash;
@@ -75,7 +78,19 @@ class Web3FunctionsForWeb {
     // final receipt = await tx.wait(); // Wait until transaction complete
     // print(receipt.logs);
   }
+Future<void> acceptAccessRequest(int id) async {
+    const List<String> abi = scabi;
 
+    const String contractAddress = '0x285ddeAF9e34A8149451E0f6c904C8628bd71441';
+
+    final Contract testToken = Contract(
+      contractAddress,
+      abi,
+      provider!.getSigner(),
+    );
+    print("ID:" + id.toString());
+    await testToken.send('approveAccessRequest', <int>[id]);
+  }
   // Future<void> signCustomTransaction() async {
   //   try {
   //     final sig = await provider!.getSigner().signMessage("hehe");

@@ -11,5 +11,6 @@ const scabi = <String>[
 
   // for real functions
   'function generateAccessRequest(address[] accountsRequested)',
-  'function viewAccessRequests() view returns (tuple[](uint256 id, address requestSender, address[] accountsRequested, bool[] requestsAccepted, uint256 createdAt))'
+  'function viewAccessRequests() view returns (tuple[](uint256 id, address requestSender, address[] accountsRequested, bool[] requestsAccepted, uint256 createdAt))',
+  'function approveAccessRequest(uint256 id)'
 ];

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iihf_template/helpers/web3functions.dart';
 
 class ViewAccessRequest extends StatefulWidget {
   final Future<List<dynamic>> listOfRequests;
@@ -76,6 +77,24 @@ class _ViewAccessRequestState extends State<ViewAccessRequest> {
                           Row(
                             children: [
                               const Text(
+                                "Players accepted:",
+                                style: TextStyle(
+                                  fontFamily: 'Spartan',
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                snapshot.data![index][3].toString(),
+                                style: const TextStyle(
+                                  fontFamily: 'Spartan',
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const Text(
                                 "Created at:",
                                 style: TextStyle(
                                   fontFamily: 'Spartan',
@@ -98,7 +117,7 @@ class _ViewAccessRequestState extends State<ViewAccessRequest> {
                           Row(
                             children: [
                               IconButton(
-                                onPressed: () => {},
+                                onPressed: () => {Web3FunctionsForWeb().acceptAccessRequest(int.parse(snapshot.data![index][0].toString()),),},
                                 icon: const Icon(Icons.verified),
                                 color: Colors.green,
                               ),
