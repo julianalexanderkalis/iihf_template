@@ -6,9 +6,9 @@ This is the repository for IIHF Blockchain Challenge. Below listed is the inform
 
 The repository consists of three main applications:
 
-`.lib` folder: Code to run and edit the frontend
-`accessRequest.sol`: Smart Contract Template to handle accessRequests from scout and athletes
-`<INSERT_DATABASE>`: The database solution with some sample data
+`.lib` folder: Code to run and edit the frontend <br />
+`accessRequest.sol`: Smart Contract Template to handle accessRequests from scout and athletes <br />
+`<INSERT_DATABASE>`: The database solution with some sample data <br />
 
 ## How to run
 
