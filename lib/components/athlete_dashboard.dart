@@ -3,7 +3,11 @@ import 'package:iihf_template/components/viewAccessRequest.dart';
 import 'package:iihf_template/helpers/web3functions.dart';
 
 class AthleteDashboard extends StatefulWidget {
-  const AthleteDashboard({super.key});
+  final String userRole;
+  const AthleteDashboard({
+    super.key,
+    required this.userRole,
+  });
 
   @override
   State<AthleteDashboard> createState() => _AthleteDashboardState();
@@ -20,7 +24,6 @@ class _AthleteDashboardState extends State<AthleteDashboard> {
   @override
   void initState() {
     personalAccessRequests = fetchAccessRequest();
-    print(personalAccessRequests);
     super.initState();
   }
 
@@ -91,14 +94,17 @@ class _AthleteDashboardState extends State<AthleteDashboard> {
             width: 800,
             height: 500,
             child: Padding(
-              padding: EdgeInsets.all(50.0),
+              padding: const EdgeInsets.all(50.0),
               child: Center(
                 child: ViewAccessRequest(
-                    listOfRequests: personalAccessRequests, key: Key("1")),
+                  listOfRequests: personalAccessRequests,
+                  role: widget.userRole,
+                  key: const Key("1"),
+                ),
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
             width: 10,
           )

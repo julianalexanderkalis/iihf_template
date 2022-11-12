@@ -26,7 +26,7 @@ class Web3FunctionsForWeb {
   Future<void> generateAccessRequest() async {
     const List<String> abi = scabi;
 
-    const String contractAddress = '0x285ddeAF9e34A8149451E0f6c904C8628bd71441';
+    const String contractAddress = scAddress;
 
     final Contract testToken = Contract(
       contractAddress,
@@ -41,7 +41,7 @@ class Web3FunctionsForWeb {
   Future<List<dynamic>> fetchAccessRequests() async {
     const List<String> abi = scabi;
 
-    const String contractAddress = '0x285ddeAF9e34A8149451E0f6c904C8628bd71441';
+    const String contractAddress = scAddress;
     final Contract testToken = Contract(
       contractAddress,
       abi,
@@ -52,36 +52,24 @@ class Web3FunctionsForWeb {
     return res;
   }
 
-  Future<List<Event>> getTaskCount() async {
+  Future<List<dynamic>> fetchAccessRequestsScout() async {
     const List<String> abi = scabi;
 
-    const String contractAddress = '0xCb89DeC390c26085E643F72Eab901561E612167F';
-
+    const String contractAddress = scAddress;
     final Contract testToken = Contract(
       contractAddress,
       abi,
       provider!.getSigner(),
     );
 
-    final events =
-        await testToken.queryFilter(testToken.getFilter('TasksAdded'));
-
-    return events;
-
-
-  
-
-    // print("here");
-    // final tx = await testToken.send('getTaskCount');
-    // tx.hash;
-
-    // final receipt = await tx.wait(); // Wait until transaction complete
-    // print(receipt.logs);
+    var res = await testToken.call("viewAccessRequestsScout");
+    return res;
   }
-Future<void> acceptAccessRequest(int id) async {
+
+  Future<void> acceptAccessRequest(int id) async {
     const List<String> abi = scabi;
 
-    const String contractAddress = '0x285ddeAF9e34A8149451E0f6c904C8628bd71441';
+    const String contractAddress = scAddress;
 
     final Contract testToken = Contract(
       contractAddress,
@@ -90,43 +78,5 @@ Future<void> acceptAccessRequest(int id) async {
     );
     print("ID:" + id.toString());
     await testToken.send('approveAccessRequest', <int>[id]);
-  }
-  // Future<void> signCustomTransaction() async {
-  //   try {
-  //     final sig = await provider!.getSigner().signMessage("hehe");
-  //     final acc = EthUtils.verifyMessage('hehe', sig);
-
-  //     print(acc);
-  //   } on ProviderRpcError catch (_) {
-  //     print("did not sign the message");
-  //   }
-  // }
-
-  Future<List<dynamic>> fetchProposals() async {
-    const List<String> abi = scabi;
-
-    const String contractAddress = scAddress;
-    final Contract testToken = Contract(
-      contractAddress,
-      abi,
-      provider!.getSigner(),
-    );
-
-    var res = await testToken.call("fetchProposals");
-    return res;
-  }
-
-  Future<List<dynamic>> fetchCompanyInformation() async {
-    const List<String> abi = scabi;
-
-    const String contractAddress = scAddress;
-    final Contract testToken = Contract(
-      contractAddress,
-      abi,
-      provider!.getSigner(),
-    );
-
-    var res = await testToken.call("fetchCompanyInformation");
-    return res;
   }
 }

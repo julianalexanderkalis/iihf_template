@@ -70,7 +70,40 @@ contract SportsAnalysis {
     }
 
     /**
-     * @dev Function to list ones accessRequests
+     * @dev Function to list ones accessRequests (for a scout)
+     */
+    function viewAccessRequestsScout()
+        external
+        view
+        returns (ScoutAccessRequest[] memory list)
+    {
+
+        uint c = 0;
+        // loop over the access request list to determine length
+        for (uint i = 0; i < accessRequest.length; i++) {
+            if (accessRequest[i].requestSender == msg.sender) {
+                c += 1;
+            }
+        }
+
+        // build in-memory tuple of access requests
+        ScoutAccessRequest[] memory scoutRequests = new ScoutAccessRequest[](c);
+
+        uint ic = 0;
+        // loop over ID's and add these access requests to in memory list
+        for (uint i = 0; i < accessRequest.length; i++) {
+            if (accessRequest[i].requestSender == msg.sender) {
+                scoutRequests[ic] =  accessRequest[i];
+                ic += 1;
+            }
+        }
+        // return
+        return scoutRequests;
+    }
+
+
+    /**
+     * @dev Function to list ones accessRequests (for an athlete)
      */
     function viewAccessRequests()
         external
@@ -96,6 +129,7 @@ contract SportsAnalysis {
         // return
         return athleteRequests;
     }
+
 
     /**
      * @dev Function to approve accessRequest
@@ -130,7 +164,7 @@ contract SportsAnalysis {
         returns (address[] memory accForAnalysis)
     {
         require(
-            block.timestamp >= accessRequest[accessRequestId].createdAt + 7 days,
+            block.timestamp >= accessRequest[accessRequestId].createdAt,
             "Athletes can still accept or decline this accessRequest"
         );
 

@@ -35,9 +35,13 @@ class _MyAppState extends State<MyApp> {
         setRole: setRole,
       );
     } else if (role == "scout") {
-      return const ScoutDashboard();
+      return const ScoutDashboard(
+        userRole: "scout",
+      );
     } else {
-      return const AthleteDashboard();
+      return const AthleteDashboard(
+        userRole: "athlete",
+      );
       ;
     }
   }
@@ -78,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String newTask = "";
 
   bool connected = false;
-  late Future<List<Event>> listOfTasks = Web3FunctionsForWeb().getTaskCount();
+
   void connectWallet() async {
     var res = await Web3FunctionsForWeb().metamask();
 
@@ -87,18 +91,6 @@ class _MyHomePageState extends State<MyHomePage> {
         connected = true;
       });
     }
-  }
-
-  void fetchTasks() async {
-    setState(() {
-      listOfTasks = Web3FunctionsForWeb().getTaskCount();
-    });
-  }
-
-  void addTask(task) {
-    setState(() {
-      newTask = task;
-    });
   }
 
   @override

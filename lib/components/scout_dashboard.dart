@@ -1,14 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:iihf_template/components/createAccessRequest.dart';
+import 'package:iihf_template/components/viewAccessRequest.dart';
+import 'package:iihf_template/helpers/web3functions.dart';
 
 class ScoutDashboard extends StatefulWidget {
-  const ScoutDashboard({super.key});
+  final String userRole;
+  const ScoutDashboard({
+    super.key,
+    required this.userRole,
+  });
 
   @override
   State<ScoutDashboard> createState() => _ScoutDashboardState();
 }
 
 class _ScoutDashboardState extends State<ScoutDashboard> {
+  late Future<List<dynamic>> personalAccessRequests;
+  Future<List<dynamic>> fetchAccessRequestScout() async {
+    var t = await Web3FunctionsForWeb().fetchAccessRequestsScout();
+
+    return t;
+  }
+
+  @override
+  void initState() {
+    personalAccessRequests = fetchAccessRequestScout();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,12 +90,24 @@ class _ScoutDashboardState extends State<ScoutDashboard> {
               ],
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.all(50.0),
-            child: Center(
-              child: Text("scout"),
+          SizedBox(
+            width: 800,
+            height: 500,
+            child: Padding(
+              padding: const EdgeInsets.all(50.0),
+              child: Center(
+                child: ViewAccessRequest(
+                  listOfRequests: personalAccessRequests,
+                  role: widget.userRole,
+                  key: const Key("1"),
+                ),
+              ),
             ),
           ),
+          const SizedBox(
+            height: 10,
+            width: 10,
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton.large(

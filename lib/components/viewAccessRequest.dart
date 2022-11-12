@@ -3,10 +3,12 @@ import 'package:iihf_template/helpers/web3functions.dart';
 
 class ViewAccessRequest extends StatefulWidget {
   final Future<List<dynamic>> listOfRequests;
+  final String role;
 
   const ViewAccessRequest({
     super.key,
     required this.listOfRequests,
+    required this.role,
   });
 
   @override
@@ -38,24 +40,25 @@ class _ViewAccessRequestState extends State<ViewAccessRequest> {
                       padding: const EdgeInsets.all(5.0),
                       child: Column(
                         children: [
-                          Row(
-                            children: [
-                              const Text(
-                                "Request sender:",
-                                style: TextStyle(
-                                  fontFamily: 'Spartan',
-                                  color: Colors.white,
+                          if (widget.role == "athlete")
+                            Row(
+                              children: [
+                                const Text(
+                                  "Request sender:",
+                                  style: TextStyle(
+                                    fontFamily: 'Spartan',
+                                    color: Colors.white,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                snapshot.data![index][1],
-                                style: const TextStyle(
-                                  fontFamily: 'Spartan',
-                                  color: Colors.white,
+                                Text(
+                                  snapshot.data![index][1],
+                                  style: const TextStyle(
+                                    fontFamily: 'Spartan',
+                                    color: Colors.white,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
+                              ],
+                            ),
                           Row(
                             children: [
                               const Text(
@@ -114,20 +117,26 @@ class _ViewAccessRequestState extends State<ViewAccessRequest> {
                               ),
                             ],
                           ),
-                          Row(
-                            children: [
-                              IconButton(
-                                onPressed: () => {Web3FunctionsForWeb().acceptAccessRequest(int.parse(snapshot.data![index][0].toString()),),},
-                                icon: const Icon(Icons.verified),
-                                color: Colors.green,
-                              ),
-                              IconButton(
-                                onPressed: () => {},
-                                icon: const Icon(Icons.close),
-                                color: Colors.red,
-                              )
-                            ],
-                          )
+                          if (widget.role == "athlete")
+                            Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () => {
+                                    Web3FunctionsForWeb().acceptAccessRequest(
+                                      int.parse(
+                                          snapshot.data![index][0].toString()),
+                                    ),
+                                  },
+                                  icon: const Icon(Icons.verified),
+                                  color: Colors.green,
+                                ),
+                                IconButton(
+                                  onPressed: () => {},
+                                  icon: const Icon(Icons.close),
+                                  color: Colors.red,
+                                )
+                              ],
+                            )
                         ],
                       ),
                     ),
