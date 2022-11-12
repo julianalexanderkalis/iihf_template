@@ -42,7 +42,6 @@ class _MyAppState extends State<MyApp> {
       return const AthleteDashboard(
         userRole: "athlete",
       );
-      ;
     }
   }
 

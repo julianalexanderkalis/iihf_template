@@ -6,8 +6,8 @@ This is the repository for IIHF Blockchain Challenge. Below listed is the inform
 
 The repository consists of three main applications:
 
-`.lib` folder: Code to run and edit the frontend <br />
-`accessRequest.sol`: Smart Contract Template to handle accessRequests from scout and athletes <br />
+`.lib` folder: Code to run and edit the frontend <br /><br />
+`accessRequest.sol`: Smart Contract Template to handle accessRequests from scout and athletes <br /><br />
 `<INSERT_DATABASE>`: The database solution with some sample data <br />
 
 ## How to run
@@ -21,13 +21,13 @@ dockerd
 Build image from Dockerfile
 
 ```
-docker build -t unifiedbackend .
+docker build -t iihf-hackathon .
 ```
 
 and run it
 
 ```
-docker run -it --rm unifiedbackend
+docker run -d -p 8080:80 --name iihf-hackathon iihf-hackathon
 ```
 
 `-it` keeps an interactive terminal open
