@@ -23,50 +23,60 @@ class Web3FunctionsForWeb {
     return <String, bool>{'connected': false};
   }
 
-  Future<void> addTask(String task) async {
+  Future<void> generateAccessRequest() async {
     const List<String> abi = scabi;
 
-    const String contractAddress = '0xB5DE2f7E2A65Ad60CA30237e1F3D0dd0552Fc7A5';
+    const String contractAddress = scAddress;
+
+    final Contract testToken = Contract(
+      contractAddress,
+      abi,
+      provider!.getSigner(),
+    );
+    var acc = await ethereum!.requestAccount();
+    print(acc[0]);
+    await testToken.send('generateAccessRequest', <List<String>>[acc]);
+  }
+
+  Future<List<dynamic>> fetchAccessRequests() async {
+    const List<String> abi = scabi;
+
+    const String contractAddress = scAddress;
     final Contract testToken = Contract(
       contractAddress,
       abi,
       provider!.getSigner(),
     );
 
-    await testToken.send('addTask', <String>[task]);
+    var res = await testToken.call("viewAccessRequests");
+    return res;
   }
 
-  Future<List<Event>> getTaskCount() async {
+  Future<List<dynamic>> fetchAccessRequestsScout() async {
     const List<String> abi = scabi;
 
-    const String contractAddress = '0xB5DE2f7E2A65Ad60CA30237e1F3D0dd0552Fc7A5';
+    const String contractAddress = scAddress;
     final Contract testToken = Contract(
       contractAddress,
       abi,
       provider!.getSigner(),
     );
 
-    final events =
-        await testToken.queryFilter(testToken.getFilter('TasksAdded'));
-
-    return events;
-
-    // print("here");
-    // final tx = await testToken.send('getTaskCount');
-    // tx.hash;
-
-    // final receipt = await tx.wait(); // Wait until transaction complete
-    // print(receipt.logs);
+    var res = await testToken.call("viewAccessRequestsScout");
+    return res;
   }
 
-  // Future<void> signCustomTransaction() async {
-  //   try {
-  //     final sig = await provider!.getSigner().signMessage("hehe");
-  //     final acc = EthUtils.verifyMessage('hehe', sig);
+  Future<void> acceptAccessRequest(int id) async {
+    const List<String> abi = scabi;
 
-  //     print(acc);
-  //   } on ProviderRpcError catch (_) {
-  //     print("did not sign the message");
-  //   }
-  // }
+    const String contractAddress = scAddress;
+
+    final Contract testToken = Contract(
+      contractAddress,
+      abi,
+      provider!.getSigner(),
+    );
+    print("ID:" + id.toString());
+    await testToken.send('approveAccessRequest', <int>[id]);
+  }
 }
