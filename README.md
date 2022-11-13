@@ -6,11 +6,11 @@ This is the repository for IIHF Blockchain Challenge. Below listed is the inform
 
 The repository consists of three main applications:
 
-`.lib` folder: Code to run and edit the frontend <br /><br />
+`.\lib` folder: Code to run and edit the frontend <br /><br />
 `accessRequest.sol`: Smart Contract Template to handle accessRequests from scout and athletes <br /><br />
-`<INSERT_DATABASE>`: The database solution with some sample data <br />
+`.\db`: The database folder that contains all files necessary to get the database running <br />
 
-## How to run
+## How to run Frontend
 
 Start docker daemon
 
@@ -55,3 +55,13 @@ To skip stages use buildkit:
 ## Common commands
 
 `go mod download && go mod tidy` should fix import issues
+
+## How to run Database
+
+Execute shell script
+
+```
+db_init.sh
+```
+
+The script will create a new docker container with the MYSQL-DB, running on `localhost:3306` with `user=myuser` and no password
