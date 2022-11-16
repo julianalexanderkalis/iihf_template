@@ -1,32 +1,68 @@
+// ignore_for_file: slash_for_doc_comments
+
+/**
+ * These are the imports that are needed throughout this file.
+ * UI Components from the Flutter framework as well as 
+ * our own created Widgets and external packages are imported here.
+ */
 import 'package:flutter/material.dart';
 import 'package:iihf_template/components/athlete_dashboard.dart';
 import 'package:iihf_template/components/scout_dashboard.dart';
 import 'helpers/web3functions.dart';
-import 'package:flutter_web3/flutter_web3.dart';
 import 'package:get_storage/get_storage.dart';
 
+/**
+ * Main function that starts the WebApp.
+ * Initializes local web storage object to store items in temp
+ * browser memory (e.g. cookies, etc)
+ */
 void main() async {
   await GetStorage.init();
   runApp(const MyApp());
 }
 
+/**
+ * Class 'MyApp' that is the entry Widget to the Application
+ * 
+ */
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  // Create 'State' to be able to manipulate/store objetcs in the app state
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+  /** 
+   * Initialize empty string to manage the 2 different roles later on
+   *  Type: String
+   */
   String role = "";
 
+  /**
+   * Function that alters the 'role' variable
+   *  Input argument: value
+   *    Type: dynamic
+   * Alters state and updates 'role' to chosen 'value'
+   */
   void setRole(value) {
     setState(() {
       role = value;
     });
-    print(role);
+    // print(role);  for debugging, comment out 'print' statement
   }
 
+  /**
+   * Function that renders the WebApps body
+   *  No Input argument
+   * 
+   *  Calls the method 'metamask()' of the 'Web3FunctionsForWeb()' class
+   *  to connect to the Metamask wallet of the user
+   * 
+   *  Checks the users current 'role' and renders 'MyHomePage()' accordingly.
+   * 
+   */
   renderBody() {
     Web3FunctionsForWeb().metamask();
     if (role == "") {
@@ -45,7 +81,7 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  // This widget is the root of your application.
+  // This widget is the root of the application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -56,12 +92,22 @@ class _MyAppState extends State<MyApp> {
           secondary: Colors.black,
           primary: Colors.black,
         ),
+        /**
+         * The 'theme' argument can be used to set global variables such as 
+         * color, fonts, sizes and layout specific values
+         */
       ),
-      home: renderBody(),
+      home: renderBody(), // calls the 'renderBody()' function
     );
   }
 }
 
+/**
+ * Setup for the 'MyHomePage' Widget
+ *  Input Arguments:
+ *    'title', type String
+ *    'setRole', type Function
+ */
 class MyHomePage extends StatefulWidget {
   final String title;
   final Function setRole;
@@ -77,28 +123,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int tasks = 0;
-  String newTask = "";
-
-  bool connected = false;
-
-  void connectWallet() async {
-    var res = await Web3FunctionsForWeb().metamask();
-
-    if (res['connected'] == true) {
-      setState(() {
-        connected = true;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Wrap(
-          crossAxisAlignment: WrapCrossAlignment.center,
-          alignment: WrapAlignment.spaceEvenly,
+          // Wrap is a widget that can either be used as a 'Row' or 'Column' replacement.
+          // It aligns Widgets on the specified axis.
+          crossAxisAlignment: WrapCrossAlignment
+              .center, // Center 'child' Widgets in the middle of the available space with respect to the vertical axis
+          alignment: WrapAlignment
+              .spaceEvenly, // align the 'child' Widgets evenly on the horizontal axis
           spacing: 50,
           children: <Widget>[
             SizedBox(
@@ -110,7 +145,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Padding(
                   padding: const EdgeInsets.all(25.0),
                   child: Column(
-                    mainAxisSize: MainAxisSize.max,
+                    mainAxisSize:
+                        MainAxisSize.max, // use maximal available space
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       const Text(
@@ -133,6 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Colors.black,
                           ),
                         ),
+                        // if the button is pressed, call the Widgets 'setRole' function with 'scout' as as String argument
                         onPressed: () => {
                           widget.setRole("scout"),
                         },
@@ -182,6 +219,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Colors.black,
                           ),
                         ),
+                        // if the button is pressed, call the Widgets 'setRole' function with 'athlete' as as String argument
                         onPressed: () => {
                           widget.setRole("athlete"),
                         },

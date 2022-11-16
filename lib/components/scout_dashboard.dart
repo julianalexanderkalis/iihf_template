@@ -1,8 +1,17 @@
+// ignore_for_file: slash_for_doc_comments
+
 import 'package:flutter/material.dart';
 import 'package:iihf_template/components/createAccessRequest.dart';
 import 'package:iihf_template/components/viewAccessRequest.dart';
 import 'package:iihf_template/helpers/web3functions.dart';
 
+/**
+ * Defines new class 'ScoutDashboard' that makes up the scouts view
+ * 
+ * Inputs:
+ *   userRole, Type String
+ * 
+ */
 class ScoutDashboard extends StatefulWidget {
   final String userRole;
   const ScoutDashboard({
@@ -15,13 +24,25 @@ class ScoutDashboard extends StatefulWidget {
 }
 
 class _ScoutDashboardState extends State<ScoutDashboard> {
+  /**
+   * A 'late' variable is a variable whose value is not set an the start but retrieved later
+   */
   late Future<List<dynamic>> personalAccessRequests;
+  /**
+   * Asynchronous function that fetches all access Requests for the scout
+   * 
+   * Returns:
+   *  List of dynamic objects
+   */
   Future<List<dynamic>> fetchAccessRequestScout() async {
-    var t = await Web3FunctionsForWeb().fetchAccessRequestsScout();
-
-    return t;
+    return await Web3FunctionsForWeb().fetchAccessRequestsScout();
   }
 
+  /**
+   * Overrides the 'initState' method
+   * 
+   * Executes the 'fetchAccessRequests' function and stores it in the 'late' variable previously mentioned above
+   */
   @override
   void initState() {
     personalAccessRequests = fetchAccessRequestScout();
@@ -96,6 +117,12 @@ class _ScoutDashboardState extends State<ScoutDashboard> {
             child: Padding(
               padding: const EdgeInsets.all(50.0),
               child: Center(
+                /**
+                 * Here, the 'ViewAccessRequest' Widget is rendered
+                 * Inputs:
+                 *  'listOfRequests' , list of all access Requests, type List of dynamic
+                 *  'role': role of the user, type String
+                 */
                 child: ViewAccessRequest(
                   listOfRequests: personalAccessRequests,
                   role: widget.userRole,
@@ -110,12 +137,16 @@ class _ScoutDashboardState extends State<ScoutDashboard> {
           )
         ],
       ),
+      /**
+       * Renders a simple dialog 
+       */
       floatingActionButton: FloatingActionButton.large(
         onPressed: () => {
           showDialog(
               context: context,
               builder: (BuildContext context) {
                 return const AlertDialog(
+                  // renders the 'CreateAccessRequest' Widget
                   content: CreateAccessRequest(),
                 );
               })
