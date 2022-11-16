@@ -1,7 +1,16 @@
+// ignore_for_file: slash_for_doc_comments
+
 import 'package:flutter/material.dart';
 import 'package:iihf_template/components/viewAccessRequest.dart';
 import 'package:iihf_template/helpers/web3functions.dart';
 
+/**
+ * Defines new class 'AthleteDashboard' that makes up the athletes view
+ * 
+ * Inputs:
+ *   userRole, Type String
+ * 
+ */
 class AthleteDashboard extends StatefulWidget {
   final String userRole;
   const AthleteDashboard({
@@ -14,13 +23,26 @@ class AthleteDashboard extends StatefulWidget {
 }
 
 class _AthleteDashboardState extends State<AthleteDashboard> {
+  /**
+   * A 'late' variable is a variable whose value is not set an the start but retrieved later
+   */
   late Future<List<dynamic>> personalAccessRequests;
-  Future<List<dynamic>> fetchAccessRequest() async {
-    var t = await Web3FunctionsForWeb().fetchAccessRequests();
 
-    return t;
+  /**
+   * Asynchronous function that fetches all access Requests for the athlete
+   * 
+   * Returns:
+   *  List of dynamic objects
+   */
+  Future<List<dynamic>> fetchAccessRequest() async {
+    return await Web3FunctionsForWeb().fetchAccessRequests();
   }
 
+  /**
+   * Overrides the 'initState' method
+   * 
+   * Executes the 'fetchAccessRequests' function and stores it in the 'late' variable previously mentioned above
+   */
   @override
   void initState() {
     personalAccessRequests = fetchAccessRequest();
@@ -96,6 +118,12 @@ class _AthleteDashboardState extends State<AthleteDashboard> {
             child: Padding(
               padding: const EdgeInsets.all(50.0),
               child: Center(
+                /**
+                 * Here, the 'ViewAccessRequest' Widget is rendered
+                 * Inputs:
+                 *  'listOfRequests' , list of all access Requests, type List of dynamic
+                 *  'role': role of the user, type String
+                 */
                 child: ViewAccessRequest(
                   listOfRequests: personalAccessRequests,
                   role: widget.userRole,
@@ -110,6 +138,7 @@ class _AthleteDashboardState extends State<AthleteDashboard> {
           )
         ],
       ),
+      // Maybe use, otherwise remove, since it does nothing yet
       floatingActionButton: FloatingActionButton.large(
         onPressed: () => {},
         child: const Icon(
