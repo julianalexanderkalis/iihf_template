@@ -17,21 +17,40 @@ import 'package:flutter/services.dart' show rootBundle;
     return data.toList();
   }
 
+class Athlete {
+  var name;
+  var height;
+  var weight;
+  var team;
+  var position;
+  var sac;
+  var gwg;
+  var goal;
+  var assist;
+  var score;
+
+  Athlete(this.name, this.height, this.weight, this.team, this.position, this.sac, this.gwg, 
+  this.goal, this.assist, this.score);
+
+  void record(){
+      print('$name asa $height asa $weight');
+    }
+}
+
 
   defineUser() async {
     var plyrs = await loadAsset();
-    List<dynamic> result = plyrs[0][0].split(';');
-    // var player_name = result[4] + ' ' + result[3] + ' ' +  result[2];
-    var p_name = result.sublist(2,5).reversed.join(' ');
-    var p_height = result[5];
-    var p_weight = result[6];
-    var p_team = result[7];
-    var p_position = result[8];
-    var p_sac = result[9];
-    var p_gwg = result[10];
-    var p_goal = result[11];
-    var p_assist = result[12];
-    var p_score = result[13];
-    return ([p_name, p_height, p_weight, p_weight, p_team, p_position, p_sac, p_gwg, p_goal, p_assist, p_score]);
+    List<dynamic> result_1 = plyrs[0];
+    List<dynamic> result_2 = plyrs[1];
+
+    Athlete a1 = new Athlete(result_1.sublist(2,5).reversed.join(' '), result_1[5], result_1[6],
+    result_1[7], result_1[8], result_1[9], result_1[10], result_1[11], result_1[12], result_1[13]);
+
+    Athlete a2 = new Athlete(result_2.sublist(2,5).reversed.join(' '), result_2[5], result_2[6],
+    result_2[7], result_2[8], result_2[9], result_2[10], result_2[11], result_2[12], result_2[13]);
+
+    // return ([p_name, p_height, p_weight, p_team, p_position, p_sac, p_gwg, p_goal, p_assist, p_score]);
+  a1.record();
+  a2.record();
+  // return();
   }
-  
