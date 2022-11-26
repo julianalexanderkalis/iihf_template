@@ -1,7 +1,7 @@
 // ignore_for_file: slash_for_doc_comments
 
 // defines the hash address of the Smart Contract on the Blockchain
-const String scAddress = "0xe6d580536FdBAb818bF6b71bFDa905f80A34dcAb";
+const String scAddress = "0x3F39D2f84db3947DDD7EfbFcEaD7015B49950577";
 
 /**
  * Defines the ABI (Application Binary Interface) of the callable functions of the Smart Contract.
