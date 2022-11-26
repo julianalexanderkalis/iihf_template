@@ -24,10 +24,9 @@ class Web3FunctionsForWeb {
         // Gets current chain the user has selected in his Metamask browser extension
         chain = await ethereum!.getChainId();
         // Checks if chain is equal to the Fantom testnet ID
-        // TODO: Change this to the Mantis network ID
-        if (chain != 4002) {
+        if (chain != 96970) {
           // switch chain to desired chain
-          ethereum!.walletSwitchChain(4002);
+          ethereum!.walletSwitchChain(96970);
         }
 
         return <String, bool>{'connected': true};
