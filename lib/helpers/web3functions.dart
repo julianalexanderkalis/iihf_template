@@ -24,10 +24,9 @@ class Web3FunctionsForWeb {
         // Gets current chain the user has selected in his Metamask browser extension
         chain = await ethereum!.getChainId();
         // Checks if chain is equal to the Fantom testnet ID
-        // TODO: Change this to the Mantis network ID
-        if (chain != 4002) {
+        if (chain != 96970) {
           // switch chain to desired chain
-          ethereum!.walletSwitchChain(4002);
+          ethereum!.walletSwitchChain(96970);
         }
 
         return <String, bool>{'connected': true};
@@ -64,7 +63,13 @@ class Web3FunctionsForWeb {
      *    List of strings
      *      Here: users account
      */
-    await iihfContract.send('generateAccessRequest', <List<String>>[acc]);
+    await iihfContract.send('generateAccessRequest', <List<String>>[
+      [
+        "0x3953aE615bE1bD9379B29e87f4BB2f832C2ffeF2", // wallet of Simon Knak
+        "0x534b6237D8dCAb93ad08bB40d87F9D2Ec0625c90", // wallet of Emil Andrae
+        acc[0] // my wallet
+      ]
+    ]);
   }
 
   /**
@@ -125,5 +130,25 @@ class Web3FunctionsForWeb {
     );
     // print("ID:" + id.toString());
     await iihfContract.send('approveAccessRequest', <int>[id]);
+  }
+
+  /**
+   * Asynchronous function that returns view statistics.
+   * 
+   * Returns list of uint256
+   */
+  Future<List<dynamic>> getStats() async {
+    // loads Smart Contracs ABI from 'sc_constants'
+    const List<String> abi = scabi;
+    // loads contract address from 'sc_constants'
+    const String contractAddress = scAddress;
+    // initialize new contract object
+    final Contract iihfContract = Contract(
+      contractAddress,
+      abi,
+      provider!.getSigner(), // connect to the Signer object
+    );
+
+    return await iihfContract.call('returnStats');
   }
 }

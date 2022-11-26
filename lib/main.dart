@@ -9,8 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:iihf_template/components/athlete_dashboard.dart';
 import 'package:iihf_template/components/scout_dashboard.dart';
 import 'helpers/web3functions.dart';
+
 import 'package:get_storage/get_storage.dart';
 import 'package:iihf_template/components/visual.dart';
+
+
 
 
 /**
@@ -19,8 +22,9 @@ import 'package:iihf_template/components/visual.dart';
  * browser memory (e.g. cookies, etc)
  */
 void main() async {
-  await GetStorage.init();
+
   print(await defineUser());
+
   runApp(const MyApp());
 }
 

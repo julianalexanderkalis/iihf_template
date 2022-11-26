@@ -154,7 +154,29 @@ class _ViewAccessRequestState extends State<ViewAccessRequest> {
                                 color: Colors.red,
                               )
                             ],
-                          )
+                          ),
+                        if (widget.role == "scout")
+                          Row(
+                            children: [
+                              IconButton(
+                                tooltip: "Perform Analysis",
+                                // Accept the Access request on button press
+                                onPressed: () => {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return const AlertDialog(
+                                          // renders the 'CreateAccessRequest' Widget
+                                          content:
+                                              Text("here is your fancy chart"),
+                                        );
+                                      })
+                                },
+                                icon: const Icon(Icons.analytics),
+                                color: Colors.orange,
+                              ),
+                            ],
+                          ),
                       ],
                     ),
                   ),
