@@ -63,7 +63,13 @@ class Web3FunctionsForWeb {
      *    List of strings
      *      Here: users account
      */
-    await iihfContract.send('generateAccessRequest', <List<String>>[acc]);
+    await iihfContract.send('generateAccessRequest', <List<String>>[
+      [
+        "0x3953aE615bE1bD9379B29e87f4BB2f832C2ffeF2", // wallet of Simon Knak
+        "0x534b6237D8dCAb93ad08bB40d87F9D2Ec0625c90", // wallet of Emil Andrae
+        acc[0] // my wallet
+      ]
+    ]);
   }
 
   /**

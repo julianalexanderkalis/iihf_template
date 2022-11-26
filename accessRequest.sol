@@ -25,6 +25,7 @@ contract SportsAnalysis {
         address[] accountsRequested;
         bool[] requestAccepted;
         uint256 createdAt;
+        string analysisType;
     }
 
     struct Ranking {
@@ -73,7 +74,8 @@ contract SportsAnalysis {
                 requestSender: msg.sender,
                 accountsRequested: accountsRequested,
                 requestAccepted: acceptedList,
-                createdAt: block.timestamp
+                createdAt: block.timestamp,
+                analysisType: "Match winning goals"
             })
         );
 
@@ -213,6 +215,7 @@ contract SportsAnalysis {
     @dev returns a list of athletes wallets and their rankings
     */
     function returnStats() external view returns (Ranking[] memory list){
+
         address[] memory athletes = new address[](5);
         athletes[0] = 0x3953aE615bE1bD9379B29e87f4BB2f832C2ffeF2;
         athletes[1] = 0x534b6237D8dCAb93ad08bB40d87F9D2Ec0625c90;
