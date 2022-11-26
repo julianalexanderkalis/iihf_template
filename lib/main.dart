@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:iihf_template/components/athlete_dashboard.dart';
 import 'package:iihf_template/components/scout_dashboard.dart';
 import 'helpers/web3functions.dart';
-import 'package:get_storage/get_storage.dart';
 
 /**
  * Main function that starts the WebApp.
@@ -17,7 +16,6 @@ import 'package:get_storage/get_storage.dart';
  * browser memory (e.g. cookies, etc)
  */
 void main() async {
-  await GetStorage.init();
   runApp(const MyApp());
 }
 

@@ -125,4 +125,24 @@ class Web3FunctionsForWeb {
     // print("ID:" + id.toString());
     await iihfContract.send('approveAccessRequest', <int>[id]);
   }
+
+  /**
+   * Asynchronous function that returns view statistics.
+   * 
+   * Returns list of uint256
+   */
+  Future<List<dynamic>> getStats() async {
+    // loads Smart Contracs ABI from 'sc_constants'
+    const List<String> abi = scabi;
+    // loads contract address from 'sc_constants'
+    const String contractAddress = scAddress;
+    // initialize new contract object
+    final Contract iihfContract = Contract(
+      contractAddress,
+      abi,
+      provider!.getSigner(), // connect to the Signer object
+    );
+
+    return await iihfContract.call('returnStats');
+  }
 }
