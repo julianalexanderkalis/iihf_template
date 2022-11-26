@@ -27,8 +27,19 @@ contract SportsAnalysis {
         uint256 createdAt;
     }
 
+    struct Ranking {
+        uint256 a_one;
+        uint256 a_two;
+        uint256 a_three;
+        uint256 a_four;
+        uint256 a_five;
+    }
+
     // maps list of ints (IDs of accessRequests) to a users wallet address
     mapping(address => uint256[]) public athleteAccessRequests;
+
+    // map of athlete addresses to number of accessRequests
+    mapping(address => uint256) public athleteRanking;
 
     ScoutAccessRequest[] public accessRequest;
 
@@ -151,6 +162,8 @@ contract SportsAnalysis {
                     "User already approved access request"
                 );
                 accessRequest[accessRequestId].requestAccepted[i] = true;
+                // increase view count for athlete
+                athleteRanking[msg.sender] += 1; 
             }
         }
     }
@@ -195,6 +208,30 @@ contract SportsAnalysis {
 
         return athletes;
     }
+
+    /*
+    @dev returns a list of athletes wallets and their rankings
+    */
+    function returnStats() external view returns (Ranking[] memory list){
+        address[] memory athletes = new address[](5);
+        athletes[0] = 0x3953aE615bE1bD9379B29e87f4BB2f832C2ffeF2;
+        athletes[1] = 0x534b6237D8dCAb93ad08bB40d87F9D2Ec0625c90;
+        athletes[2] = 0xB7307f388ebFFFff418E1c381b47F67b57Ed5eD4;
+        athletes[3] = 0xFD01FfFF3dCF6f70107cc39a2f4bF4AC7Af82192;
+        athletes[4] = 0x1797f7ca4D9478721a68299c640780DD1d20f611;
+
+        uint256[] memory rankings = new uint256[](athletes.length);
+        for (uint i = 0; i < athletes.length; i++) {
+            rankings[i] = athleteRanking[athletes[i]];
+        }
+        Ranking[] memory ranking = new Ranking[](1);
+
+        Ranking memory t = Ranking({a_one : rankings[0] + 1,
+        a_two : rankings[1]+1, a_three : rankings[2]+1, a_four : rankings[3]+1, a_five : rankings[4]+1});
+
+        ranking[0] = t;
+        return ranking;
+    }
+
 }
 
-// NOTE: ONLY ATHLETES THAT ARE INCLUDED IN accessRequest SHOULD BE ABLE TO CALL APPROVE METHOD
