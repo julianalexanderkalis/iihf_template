@@ -127,6 +127,7 @@ class _ScoutDashboardState extends State<ScoutDashboard> {
               const Text(
                 "Top compared athletes",
                 style: TextStyle(
+                  fontSize: 25,
                   fontFamily: 'Spartan',
                   color: Colors.black,
                 ),
@@ -193,11 +194,28 @@ class _ScoutDashboardState extends State<ScoutDashboard> {
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 50,
+              ),
+              const SizedBox(
+                width: 500,
+                child: Divider(color: Colors.black, height: 2, thickness: 1),
+              ),
+              const SizedBox(
+                height: 50,
+              ),
+              const Text(
+                "My access requests",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 25,
+                ),
+              ),
               SizedBox(
                 width: 800,
-                height: 500,
+                height: 800,
                 child: Padding(
-                  padding: const EdgeInsets.all(50.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 50.0),
                   child: Center(
                     /**
                      * Here, the 'ViewAccessRequest' Widget is rendered
@@ -235,10 +253,13 @@ class _ScoutDashboardState extends State<ScoutDashboard> {
                 );
               })
         },
+        backgroundColor: Colors.white,
+        elevation: 25,
         child: const Icon(
           Icons.add,
-          color: Colors.white,
+          color: Colors.black,
         ),
+        tooltip: "Create analysis",
       ),
     );
   }

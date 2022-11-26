@@ -1,6 +1,7 @@
 // ignore_for_file: slash_for_doc_comments, file_names
 
 import 'package:flutter/material.dart';
+import 'package:iihf_template/components/chart.dart';
 import 'package:iihf_template/helpers/web3functions.dart';
 
 /**
@@ -46,138 +47,172 @@ class _ViewAccessRequestState extends State<ViewAccessRequest> {
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 15.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                    padding: const EdgeInsets.all(5.0),
-                    child: Column(
-                      children: [
-                        // Render following widget only if the user has the 'role' of athlete
-                        if (widget.role == "athlete")
+                  child: Card(
+                    elevation: 25,
+                    shadowColor: Colors.black,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          // Render following widget only if the user has the 'role' of athlete
+                          if (widget.role == "athlete")
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  "Request sender:",
+                                  style: TextStyle(
+                                    fontFamily: 'Spartan',
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Text(
+                                  snapshot.data![index][
+                                      1], // uses second item in the list object, which is the account of the request sender
+                                  style: const TextStyle(
+                                    fontFamily: 'Spartan',
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const Text(
-                                "Request sender:",
+                                "Players in comparison:",
                                 style: TextStyle(
                                   fontFamily: 'Spartan',
-                                  color: Colors.white,
+                                  color: Colors.black,
                                 ),
                               ),
                               Text(
-                                snapshot.data![index][
-                                    1], // uses second item in the list object, which is the account of the request sender
+                                snapshot.data![index][2].length
+                                    .toString(), // uses third item in the list object, which are the players requested
                                 style: const TextStyle(
                                   fontFamily: 'Spartan',
-                                  color: Colors.white,
+                                  color: Colors.black,
                                 ),
                               ),
                             ],
                           ),
-                        Row(
-                          children: [
-                            const Text(
-                              "Players in comparison:",
-                              style: TextStyle(
-                                fontFamily: 'Spartan',
-                                color: Colors.white,
-                              ),
-                            ),
-                            Text(
-                              snapshot.data![index][2].length
-                                  .toString(), // uses third item in the list object, which are the players requested
-                              style: const TextStyle(
-                                fontFamily: 'Spartan',
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const Text(
-                              "Players accepted:",
-                              style: TextStyle(
-                                fontFamily: 'Spartan',
-                                color: Colors.white,
-                              ),
-                            ),
-                            Text(
-                              snapshot.data![index][3]
-                                  .toString(), // uses fourth item in the list object, which shows which players have accepted the request so far
-                              style: const TextStyle(
-                                fontFamily: 'Spartan',
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const Text(
-                              "Created at:",
-                              style: TextStyle(
-                                fontFamily: 'Spartan',
-                                color: Colors.white,
-                              ),
-                            ),
-                            Text(
-                              DateTime.fromMillisecondsSinceEpoch(int.parse(
-                                          snapshot.data![index][4].toString()) *
-                                      1000)
-                                  .toString(), // render the date when the accessRequest was created, a lot of stupid formatting was needed ... :(
-                              style: const TextStyle(
-                                fontFamily: 'Spartan',
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                        if (widget.role == "athlete")
-                          Row(
-                            children: [
-                              IconButton(
-                                // Accept the Access request on button press
-                                onPressed: () => {
-                                  Web3FunctionsForWeb().acceptAccessRequest(
-                                    int.parse(snapshot.data![index][0]
-                                        .toString()), // this is the ID of the request, used for updating the corresponding object on the smart contract
-                                  ),
-                                },
-                                icon: const Icon(Icons.verified),
-                                color: Colors.green,
-                              ),
-                              IconButton(
-                                onPressed: () => {},
-                                icon: const Icon(Icons.close),
-                                color: Colors.red,
-                              )
-                            ],
+                          const SizedBox(
+                            height: 10,
                           ),
-                        if (widget.role == "scout")
                           Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              IconButton(
-                                tooltip: "Perform Analysis",
-                                // Accept the Access request on button press
-                                onPressed: () => {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return const AlertDialog(
-                                          // renders the 'CreateAccessRequest' Widget
-                                          content:
-                                              Text("here is your fancy chart"),
-                                        );
-                                      })
-                                },
-                                icon: const Icon(Icons.analytics),
-                                color: Colors.orange,
+                              const Text(
+                                "Players accepted:",
+                                style: TextStyle(
+                                  fontFamily: 'Spartan',
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Text(
+                                snapshot.data![index][3]
+                                    .toString(), // uses fourth item in the list object, which shows which players have accepted the request so far
+                                style: const TextStyle(
+                                  fontFamily: 'Spartan',
+                                  color: Colors.black,
+                                ),
                               ),
                             ],
                           ),
-                      ],
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                "Created at:",
+                                style: TextStyle(
+                                  fontFamily: 'Spartan',
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Text(
+                                DateTime.fromMillisecondsSinceEpoch(int.parse(
+                                            snapshot.data![index][4]
+                                                .toString()) *
+                                        1000)
+                                    .toString(), // render the date when the accessRequest was created, a lot of stupid formatting was needed ... :(
+                                style: const TextStyle(
+                                  fontFamily: 'Spartan',
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          if (widget.role == "athlete")
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                IconButton(
+                                  // Accept the Access request on button press
+                                  onPressed: () => {
+                                    Web3FunctionsForWeb().acceptAccessRequest(
+                                      int.parse(snapshot.data![index][0]
+                                          .toString()), // this is the ID of the request, used for updating the corresponding object on the smart contract
+                                    ),
+                                  },
+                                  icon: const Icon(Icons.verified),
+                                  color: Colors.green,
+                                ),
+                                IconButton(
+                                  onPressed: () => {},
+                                  icon: const Icon(Icons.close),
+                                  color: Colors.red,
+                                )
+                              ],
+                            ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          if (widget.role == "scout")
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                IconButton(
+                                  tooltip: "Perform Analysis",
+                                  // Accept the Access request on button press
+                                  onPressed: () => {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return const AlertDialog(
+                                            // renders the 'CreateAccessRequest' Widget
+                                            content: SizedBox(
+                                                height: 250,
+                                                width: 250,
+                                                child: GWGChart()),
+                                          );
+                                        })
+                                  },
+                                  icon: const Icon(Icons.analytics),
+                                  iconSize: 40,
+                                  color: Color.fromARGB(255, 48, 89, 237),
+                                ),
+                              ],
+                            ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );

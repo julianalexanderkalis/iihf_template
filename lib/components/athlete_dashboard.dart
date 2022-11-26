@@ -56,7 +56,6 @@ class _AthleteDashboardState extends State<AthleteDashboard> {
         title: const Text("IIHF Recruitment Platform"),
       ),
       body: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Drawer(
             child: ListView(
@@ -112,40 +111,47 @@ class _AthleteDashboardState extends State<AthleteDashboard> {
               ],
             ),
           ),
-          SizedBox(
-            width: 800,
-            height: 500,
-            child: Padding(
-              padding: const EdgeInsets.all(50.0),
-              child: Center(
-                /**
-                 * Here, the 'ViewAccessRequest' Widget is rendered
-                 * Inputs:
-                 *  'listOfRequests' , list of all access Requests, type List of dynamic
-                 *  'role': role of the user, type String
-                 */
-                child: ViewAccessRequest(
-                  listOfRequests: personalAccessRequests,
-                  role: widget.userRole,
-                  key: const Key("1"),
+          Column(
+            children: [
+              const SizedBox(
+                height: 50,
+              ),
+              const Text(
+                "My access requests",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 25,
                 ),
               ),
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-            width: 10,
+              SizedBox(
+                width: 800,
+                height: 800,
+                child: Padding(
+                  padding: const EdgeInsets.all(50.0),
+                  child: Center(
+                    /**
+                     * Here, the 'ViewAccessRequest' Widget is rendered
+                     * Inputs:
+                     *  'listOfRequests' , list of all access Requests, type List of dynamic
+                     *  'role': role of the user, type String
+                     */
+                    child: ViewAccessRequest(
+                      listOfRequests: personalAccessRequests,
+                      role: widget.userRole,
+                      key: const Key("1"),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+                width: 10,
+              ),
+            ],
           )
         ],
       ),
       // Maybe use, otherwise remove, since it does nothing yet
-      floatingActionButton: FloatingActionButton.large(
-        onPressed: () => {},
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-      ),
     );
   }
 }
